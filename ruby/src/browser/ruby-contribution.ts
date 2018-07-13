@@ -1,33 +1,37 @@
-import { injectable, inject } from "inversify";
-import { CommandContribution, CommandRegistry, MenuContribution, MenuModelRegistry, MessageService } from "@theia/core/lib/common";
-import { CommonMenus } from "@theia/core/lib/browser";
+/*
+ * Copyright (C) 2018 TypeFox and others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ */
 
-export const RubyCommand = {
-    id: 'ruby.command',
-    label: "Shows a message"
-};
+import { injectable, inject } from "inversify";
+import { BaseLanguageClientContribution, Workspace, Languages, LanguageClientFactory } from '@theia/languages/lib/browser';
+import { RUBY_LANGUAGE_ID, RUBY_LANGUAGE_NAME } from '../common';
 
 @injectable()
-export class RubyCommandContribution implements CommandContribution {
+export class RubyClientContribution extends BaseLanguageClientContribution {
+
+    readonly id = RUBY_LANGUAGE_ID;
+    readonly name = RUBY_LANGUAGE_NAME;
 
     constructor(
-        @inject(MessageService) private readonly messageService: MessageService,
-    ) { }
-
-    registerCommands(registry: CommandRegistry): void {
-        registry.registerCommand(RubyCommand, {
-            execute: () => this.messageService.info('Hello World!')
-        });
+        @inject(Workspace) protected readonly workspace: Workspace,
+        @inject(Languages) protected readonly languages: Languages,
+        @inject(LanguageClientFactory) protected readonly languageClientFactory: LanguageClientFactory
+    ) {
+        super(workspace, languages, languageClientFactory);
     }
-}
 
-@injectable()
-export class RubyMenuContribution implements MenuContribution {
-
-    registerMenus(menus: MenuModelRegistry): void {
-        menus.registerMenuAction(CommonMenus.EDIT_FIND, {
-            commandId: RubyCommand.id,
-            label: 'Say Hello'
-        });
+    protected get globPatterns() {
+        return [
+            '**/*.rb',
+            '**/*.rbx',
+            '**/*.rjs',
+            '**/*.gemspec',
+            '**/*.rake',
+            '**/*.ru',
+            '**/*.erb'
+        ];
     }
 }
