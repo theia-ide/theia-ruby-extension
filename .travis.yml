@@ -1,0 +1,35 @@
+sudo: required
+language: node_js
+node_js: '8'
+git:
+  depth: 1
+cache:
+  yarn: true
+  directories:
+  - node_modules
+branches:
+  only:
+  - master
+install:
+- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.2.1
+- export PATH=$HOME/.yarn/bin:$PATH ;
+script:
+- yarn
+notifications:
+  webhooks:
+    urls:
+    - https://webhooks.gitter.im/e/c42ddc125fe6bbfccb48
+    on_success: change
+    on_failure: always
+    on_start: never
+before_deploy:
+- printf "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}\n" >> ~/.npmrc
+deploy:
+  provider: script
+  script: yarn run publish:next
+  skip_cleanup: true
+  on:
+    branch: master
+env:
+  global:
+    secure: QDCD6hYrVOHFQdQ17Y+/Ma+v9zH0P/gWUpm+SnM+3fuILDqRdgK4WXDbAm7Y6+9t7WQEvbRzvHPToDlkcpzqMyJS0lboNtAZnYnOQYq0moRoyyedNQnsqBzguAo/Dul6Ftn0qlfMecrZB5O4pf8e0Jvr6ItaDbkV/mI/CRHKrwLRLjHu8SL8cb4drmYGNRCyKhQUkSuOZ380Z4wpUdgUh2Lv3AN/VXmvBPpZIPlclaiA0Iry+5f8MWYXKb2yGeCNBjQTVvOoGuawdS7Q1jI82B3AAxDDf7I3sgBECZLTr+xaJtFC7UijBCJzTjReA6qRhI27Wt5fzoESFD3IjBp3NoP/94FJlLuG4niuUkTmqxQS+ApB/OMk8d7LgQSIOyS39UT0w5NQ5eIPcmnjoENuSM8uLjmtqr2AmnWak/pn31c17XFQAbI/Ge+UYLDNkd7bUhTtGHgmbp8MHYy7BkTSLOyM6LQjPt/tqskA3RDxkaPZyWnTZ52oerbd+g5RVfTq3BUBYBkMRg1vKwSaKwXnbX11gOHHk+CWDoA9fwn3KcfzLjF4uEP79wZ2egXgaRfjc5VCF76jkbP8wAIfFiHRoWdjepEgDqj91j7NlawrCCAirQr2prFrjECpXs3X9sKio3wChlt4l7zDHPukyFj8UxO/9NGPxVKQSq86R23WzKI=

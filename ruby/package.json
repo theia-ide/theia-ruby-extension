@@ -3,8 +3,9 @@
   "keywords": [
     "theia-extension"
   ],
-  "version": "0.0.0",
+  "version": "0.1.0",
   "files": [
+    "data",
     "lib",
     "src"
   ],
@@ -23,7 +24,8 @@
   },
   "theiaExtensions": [
     {
-      "frontend": "lib/browser/Theia Ruby Extension-frontend-module"
+      "frontend": "lib/browser/ruby-frontend-module",
+      "backend": "lib/node/ruby-backend-module"
     }
   ]
 }
