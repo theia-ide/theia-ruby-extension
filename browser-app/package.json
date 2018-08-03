@@ -14,9 +14,8 @@
     "@theia/languages": "next",
     "@theia/markers": "next",
     "@theia/monaco": "next",
-    "@theia/typescript": "next",
     "@theia/messages": "next",
-    "@theia/ruby": "next"
+    "@theia/ruby": "*"
   },
   "devDependencies": {
     "@theia/cli": "next"
