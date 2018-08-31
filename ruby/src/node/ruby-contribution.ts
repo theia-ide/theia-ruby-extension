@@ -26,7 +26,7 @@ export class RubyContribution extends BaseLanguageServerContribution {
         const args: string[] = [
             'stdio'
         ];
-        this.logger.info("starting Ruby language server...")
+        console.info("starting Ruby language server...")
         
         const serverConnection = this.createProcessStreamConnection(command, args);
         // serverConnection.reader.onError(err => console.log(err));
@@ -35,7 +35,7 @@ export class RubyContribution extends BaseLanguageServerContribution {
 
     protected onDidFailSpawnProcess(error: Error): void {
         super.onDidFailSpawnProcess(error);
-        this.logger.error("Error starting ruby language server.");
-        this.logger.error("Please make sure it is installed on your system.");
+        console.error("Error starting ruby language server.");
+        console.error("Please make sure it is installed on your system.");
     }
 }

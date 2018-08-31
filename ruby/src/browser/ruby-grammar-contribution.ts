@@ -73,7 +73,7 @@ export class RubyGrammarContribution implements LanguageGrammarDefinitionContrib
         monaco.languages.setLanguageConfiguration(RUBY_LANGUAGE_ID, this.config);
 
         const rubyGrammar = require('../../data/ruby.tmLanguage.json');
-        registry.registerTextMateGrammarScope('source.ruby', {
+        registry.registerTextmateGrammarScope('source.ruby', {
             async getGrammarDefinition() {
                 return {
                     format: 'json',
