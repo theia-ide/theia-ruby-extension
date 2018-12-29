@@ -1,3 +1,6 @@
+# docker build -t --rm theia-ruby .
+# docker run -d -v YOUR_RUBY_PROJECT_ROOT:/source -p 3000:3000 theia-ruby
+# open http://localhost:3000/#/source
 FROM alpine
 
 USER root
@@ -20,7 +23,5 @@ COPY . /ruby-ide/theia-ruby-extension
 WORKDIR /ruby-ide/theia-ruby-extension
 RUN yarn
 
-
 WORKDIR /ruby-ide/theia-ruby-extension/browser-app
-#
 CMD yarn start --hostname 0.0.0.0 /source
