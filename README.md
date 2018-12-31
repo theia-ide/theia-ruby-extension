@@ -5,12 +5,11 @@
 This extension adds Ruby language support to Theia.
 It uses [solargraph language server](https://github.com/castwide/solargraph) to provide lanugage smartness.
 
-# Get started
 
-## Using Gitpod.io
+# Get started
 Start development workspace using Gitpod.io.
 
-[![Gitpod - Start Development Workspace](https://img.shields.io/badge/Gitpod-code%20now-blue.svg?longCache=true)](https://gitpod.io#https://github.com/theia-ide/theia-ruby-extension)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/theia-ide/theia-ruby-extension)
 
 ## Local
 Build the repo
