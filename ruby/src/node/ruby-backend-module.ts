@@ -10,5 +10,6 @@ import { LanguageServerContribution } from "@theia/languages/lib/node";
 import { RubyContribution } from './ruby-contribution';
 
 export default new ContainerModule(bind => {
-    bind(LanguageServerContribution).to(RubyContribution).inSingletonScope();
+    bind(RubyContribution).toSelf().inSingletonScope();
+    bind(LanguageServerContribution).toService(RubyContribution);
 });

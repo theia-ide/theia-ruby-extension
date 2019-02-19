@@ -8,6 +8,9 @@
 import { injectable } from "inversify";
 import { IConnection, BaseLanguageServerContribution } from "@theia/languages/lib/node";
 import { RUBY_LANGUAGE_ID, RUBY_LANGUAGE_NAME } from '../common';
+import { parseArgs } from '@theia/process/lib/node/utils';
+import { SpawnOptions } from 'child_process';
+import { ProcessErrorEvent } from '@theia/process/lib/node/process';
 
 // export type ConfigurationType = 'config_win' | 'config_mac' | 'config_linux';
 // export const configurations = new Map<typeof process.platform, ConfigurationType>();
@@ -21,19 +24,27 @@ export class RubyContribution extends BaseLanguageServerContribution {
     readonly id = RUBY_LANGUAGE_ID;
     readonly name = RUBY_LANGUAGE_NAME;
 
-    start(clientConnection: IConnection): void {
-        const command = 'solargraph';
-        const args: string[] = [
+    async start(clientConnection: IConnection): Promise<void> {
+        let command = 'solargraph';
+        let args: string[] = [
             'stdio'
         ];
+        const rubyLsCommand = process.env.RUBY_LS_COMMAND;
+        if (rubyLsCommand) {
+            command = rubyLsCommand;
+            args = parseArgs(process.env.RUBY_LS_ARGS || '');
+        }
         console.info("starting Ruby language server...")
         
-        const serverConnection = this.createProcessStreamConnection(command, args);
-        // serverConnection.reader.onError(err => console.log(err));
+        const serverConnection = await this.createProcessStreamConnectionAsync(command, args, this.getSpawnOptions());
         this.forward(clientConnection, serverConnection);
     }
 
-    protected onDidFailSpawnProcess(error: Error): void {
+    protected getSpawnOptions(): SpawnOptions | undefined {
+        return undefined;
+    }
+
+    protected onDidFailSpawnProcess(error: ProcessErrorEvent): void {
         super.onDidFailSpawnProcess(error);
         console.error("Error starting ruby language server.");
         console.error("Please make sure it is installed on your system.");
